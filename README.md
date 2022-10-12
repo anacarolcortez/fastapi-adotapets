@@ -82,5 +82,5 @@ Utilize o e-mail e a senha cadastrados para acessar as APIs permitidas aos adota
      ```
 ### Execução
   ```
-  $ uvicorn.run("main:app", port=8000, reload=True, access_log=False)
+  $ uvicorn main:app --reload
    ```
