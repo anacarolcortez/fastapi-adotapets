@@ -12,6 +12,7 @@ APIs para sistema de adoção de pets, com autenticação de usuário administra
 app = FastAPI(title="Adota Pets", 
               version="1.0",
               description=desc)
+
 app.include_router(pets.router)
 app.include_router(adotante.router)
 
