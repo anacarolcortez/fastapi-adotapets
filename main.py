@@ -1,7 +1,7 @@
-import uvicorn
+#import uvicorn
 from fastapi import FastAPI
 
-from src.routes import home, pets, adotante
+from src.routes import pets, adotante
 
 desc = """
 Microsserviços em Python, FastAPI, MongoDB, Motor Asyncio e Uvicorn.
@@ -13,7 +13,6 @@ app = FastAPI(title="Adota Pets",
               description=desc)
 
 
-app.include_router(home.router)
 app.include_router(pets.router)
 app.include_router(adotante.router)
 
