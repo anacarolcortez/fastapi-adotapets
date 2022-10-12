@@ -4,9 +4,8 @@ from fastapi import FastAPI
 from src.routes import home, pets, adotante
 
 desc = """
-APIs para sistema de adoção de pets, com autenticação de usuário administrador. 
-\nMicrosserviços em Python, FastAPI, MongoDB, Motor Asyncio e Uvicorn.
-\nAna Cortez * https://github.com/anacarolcortez
+Microsserviços em Python, FastAPI, MongoDB, Motor Asyncio e Uvicorn.
+\nReadme: https://github.com/anacarolcortez/fastapi-adotapets
 """
 
 app = FastAPI(title="Adota Pets", 

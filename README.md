@@ -39,9 +39,8 @@ Por meio dos endpoints, é possível:
 ## Como acessar
 
 ### Swagger
-  ```
-  http://{url}/docs
-  ```
+  
+  https://adotapets.onrender.com/docs
 
 ### Níveis de acesso
 * admin
@@ -80,7 +79,7 @@ Utilize o e-mail e a senha cadastrados para acessar as APIs permitidas aos adota
      ```
      $ pip install -r requirements.txt
      ```
-### Execução
+### Execução localhost
   ```
   $ uvicorn main:app --reload
    ```
