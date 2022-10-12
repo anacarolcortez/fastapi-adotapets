@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 
-from src.routes import pets, adotante
+from src.routes import home, pets, adotante
 
 desc = """
 APIs para sistema de adoção de pets, com autenticação de usuário administrador. 
@@ -13,6 +13,8 @@ app = FastAPI(title="Adota Pets",
               version="1.0",
               description=desc)
 
+
+app.include_router(home.router)
 app.include_router(pets.router)
 app.include_router(adotante.router)
 
