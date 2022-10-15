@@ -25,7 +25,7 @@ async def register_pet(pet: PetSchema, user=Depends(validate_admin)):
                 pet
             )
     except Exception as e:
-        return f'{e}'
+        return e
 
 
 @router.get("/{name}", tags=["pets"])
@@ -37,16 +37,19 @@ async def get_pet(name: str, user=Depends(validate_admin)):
                 name
             )
     except Exception as e:
-        return f'{e}'
+        return e
     
     
 @router.get("/", tags=["pets"])
 async def list_pets():
-    return await get_all_pets(
-        pets_collection,
-        skip = 0,
-        limit = 10
-    )
+    try:
+        return await get_all_pets(
+            pets_collection,
+            skip = 0,
+            limit = 10
+        )
+    except Exception as e:
+        return e
     
     
 @router.patch("/{name}", tags=["pets"])
@@ -59,7 +62,7 @@ async def update_pet_data(name: str, data: PetUpdateSchema, user=Depends(validat
                 data
             )
     except Exception as e:
-        return f'{e}'
+        return e
                 
 
 @router.delete("/{name}", tags=["pets"])
@@ -71,4 +74,4 @@ async def delete_pet(name: str, user=Depends(validate_admin)):
                 name
             )
     except Exception as e:
-        return f'{e}'
+        return e
