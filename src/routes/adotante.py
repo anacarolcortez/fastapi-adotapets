@@ -6,7 +6,7 @@ from src.controllers.adotantes import (
     update_adopter_info, 
 )
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from src.server.database import db
 
 from src.security.basic_oauth import validate_admin, validate_adopter

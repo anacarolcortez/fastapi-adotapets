@@ -23,21 +23,14 @@ Por meio dos endpoints, é possível:
 * Atualizar endereço (adotante)
 * Excluir endereço (adotante)
 
-### Gerenciar pedidos de adoção
+### Gerenciar adoções
 
 * Cadastrar pedido de adoção (adotante)
 * Consultar pedido de adoção (adotante)
-* Listar pedidos de adoção (admin)
-* Excluir pedidos de adoção (adotante)
-
-### Gerenciar adoções
-
-* Cadastrar adoção deferida (admin)
-* Listar adoções deferidas (admin)
-* Listar adoções indeferidas (admin)
-* Atualizar status do pedido e da adoção (admin)
-* Consultar adoção por email do adotante (admin)
-* Consultar adoção por nome do pet (admin)
+* Listar pedidos de adoção por adotante (admin)
+* Listar pedidos de adoção por pet (admin)
+* Atualizar status do pedido para deferido/indeferido (admin)
+* Atualizar status do pet para adotado/não-adotado (admin)
 
 ## Como acessar
 
