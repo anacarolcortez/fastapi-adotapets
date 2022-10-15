@@ -29,13 +29,12 @@ async def register_pet(pet: PetSchema, user=Depends(validate_admin)):
 
 
 @router.get("/{name}", tags=["pets"])
-async def get_pet(name: str, user=Depends(validate_admin)):
+async def get_pet(name: str):
     try:
-        if user:
-            return await find_pet(
-                pets_collection,
-                name
-            )
+        return await find_pet(
+            pets_collection,
+            name
+        )
     except Exception as e:
         return e
     

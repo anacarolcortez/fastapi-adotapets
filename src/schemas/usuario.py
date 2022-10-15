@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from pydantic import BaseModel, EmailStr, Field, validator
 from bson import ObjectId
 
@@ -13,7 +13,7 @@ class UsuarioSchema(BaseModel):
     def password_validation(cls, v):
         if len(v) < 5 or len(v) > 15:
             raise HTTPException(
-                status_code=400, detail="Senha deve ter entre 5 e 15 caracteres")
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Senha deve ter entre 5 e 15 caracteres")
         return v
 
     class Config:

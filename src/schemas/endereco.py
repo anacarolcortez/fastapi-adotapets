@@ -25,13 +25,3 @@ class EnderecoSchema(BaseModel):
                 "cep": "01021030"
             }
         }
-        
-class EnderecoAdotanteSchema(BaseModel):
-    adotante: EmailStr = Field(unique=True)
-    logradouro: str = Field(max_length=80)
-    numero: int
-    complemento: str = Field(max_length=10)
-    bairro: str = Field(max_length=20)
-    cidade: str = Field(max_length=40)
-    estado: str = Field(max_length=2)
-    cep: str = Field(max_length=8)  

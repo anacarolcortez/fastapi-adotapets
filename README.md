@@ -14,27 +14,30 @@ Por meio dos endpoints, é possível:
 
 ### Gerenciar cadastro de adotantes
 
-* Cadastrar adotantes
-* Consultar adotantes
-* Atualizar dados dos adotantes
-* Excluir cadastro de adotantes
-* Cadastrar endereço
-* Consultar endereço
-* Atualizar endereço
-* Excluir endereço
+* Cadastrar adotantes (adotante)
+* Consultar adotantes (admin)
+* Atualizar dados dos adotantes (adotante)
+* Excluir cadastro de adotantes (adotante)
+* Cadastrar endereço (adotante)
+* Consultar endereço (adotante)
+* Atualizar endereço (adotante)
+* Excluir endereço (adotante)
 
 ### Gerenciar pedidos de adoção
 
-* Cadastrar pedido de adoção
-* Consultar pedidos de adoção
-* Atualizar status do pedido de adoção (admin)
-* Excluir pedidos de adoção 
+* Cadastrar pedido de adoção (adotante)
+* Consultar pedido de adoção (adotante)
+* Listar pedidos de adoção (admin)
+* Excluir pedidos de adoção (adotante)
 
 ### Gerenciar adoções
 
 * Cadastrar adoção deferida (admin)
-* Consultar adoção deferida (admin)
-* Atualizar adoção (admin)
+* Listar adoções deferidas (admin)
+* Listar adoções indeferidas (admin)
+* Atualizar status do pedido e da adoção (admin)
+* Consultar adoção por email do adotante (admin)
+* Consultar adoção por nome do pet (admin)
 
 ## Como acessar
 

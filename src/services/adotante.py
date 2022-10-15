@@ -44,7 +44,6 @@ async def update_adopter(adopters_collection, email, data):
     return False
 
     
-
 async def delete_adopter(adopters_collection, email):
     adopter = await adopters_collection.delete_one(
         {'email': email}

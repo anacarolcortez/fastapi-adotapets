@@ -29,8 +29,7 @@ class PetSchema(BaseModel):
     tipo: Tipo
     pcd: bool = Field(default=False)
     foto: Optional[str]
-    personalidade: str = Field(max_length=100)
-    obs: Optional[str]
+    obs: Optional[str] = Field(max_length=200)
     adotado: bool = Field(default=False)
 
     class Config:
@@ -47,8 +46,7 @@ class PetSchema(BaseModel):
                 "tipo": "cachorro",
                 "pcd": False,
                 "foto": "imgur.com/khaleesi.jpg",
-                "personalidade": "brincalhona, gosta de correr no parque e gastar energia; prefere ser filha única",
-                "obs": "foi resgatada grávida e teve três fihotes: drogo, viserion e rhaegal",
+                "obs": "brincalhona e sociável; foi resgatada grávida e teve três fihotes: drogo, viserion e rhaegal",
                 "adotado": False
             }
         }
@@ -57,8 +55,7 @@ class PetSchema(BaseModel):
 class PetUpdateSchema(BaseModel):
     pcd: Optional[bool] = Field(default=False)
     foto: Optional[str]
-    personalidade: Optional[str] = Field(max_length=100)
-    obs: Optional[str]
+    obs: Optional[str] = Field(max_length=200)
     
     class Config:
         arbitrary_types_allowed = False
@@ -67,7 +64,6 @@ class PetUpdateSchema(BaseModel):
             "example": {
                 "pcd": True,
                 "foto": "imgur.com/khaleesi_update.jpg",
-                "personalidade": "carinhosa, ama pessoas, mas prefere ser filha única",
                 "obs": "enxerga pouco no olho esquerdo"
             }
         }
