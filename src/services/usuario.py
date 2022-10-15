@@ -27,3 +27,12 @@ async def insert_user_adopter(adopters_collection, adopter):
         adopter = await get_user_by_id(adopters_collection, adopter.inserted_id)
         return adopter
     raise NotInsertedException("Erro ao cadastrar usuário para o adotante")
+
+
+async def delete_user(users_collection, email):
+    user = await users_collection.delete_one(
+        {'email': email}
+    )
+    if user.deleted_count:
+        return True
+    return False

@@ -21,7 +21,7 @@ class EnderecoSchema(BaseModel):
                 "complemento": "2 andar",
                 "bairro": "Royal",
                 "cidade": "Westeros",
-                "estado": "Seven Kingdoms",
+                "estado": "SP",
                 "cep": "01021030"
             }
         }

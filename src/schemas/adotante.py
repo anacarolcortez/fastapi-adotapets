@@ -3,6 +3,8 @@ from datetime import date, datetime
 from typing import Optional
 from pydantic import BaseModel, EmailStr, Field, validator
 from bson import ObjectId
+from fastapi import HTTPException
+
 
 from src.schemas.sexo import Sexo
 
@@ -26,8 +28,8 @@ class AdotanteUpdateSchema(BaseModel):
     def phone_validation(cls, v):
         regex = r"^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$"
         if v and not re.search(regex, v, re.I):
-            raise ValueError(
-                "Formato de telefone deve ser (XX) XXXX-XXXX ou (XX) 9XXXX-XXXX")
+            raise HTTPException(
+                status_code=400, detail="Formato de telefone deve ser (XX) XXXX-XXXX ou (XX) 9XXXX-XXXX")
         return v
 
     class Config:
@@ -71,12 +73,13 @@ class AdotanteUsuarioSchema(BaseModel):
     def phone_validation(cls, v):
         regex = r"^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$"
         if v and not re.search(regex, v, re.I):
-            raise ValueError(
-                "Formato de telefone deve ser (XX) XXXX-XXXX ou (XX) 9XXXX-XXXX")
+            raise HTTPException(
+                status_code=400, detail="Formato de telefone deve ser (XX) XXXX-XXXX ou (XX) 9XXXX-XXXX")
         return v
 
     @validator("cpf")
     def cpf_format_validator(cls, v):
         if not re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', v):
-            raise ValueError("Formato do cpf deve ser XXX.XXX.XXX-XX")
+            raise HTTPException(
+                status_code=400, detail="Formato do cpf deve ser XXX.XXX.XXX-XX")
         return v
