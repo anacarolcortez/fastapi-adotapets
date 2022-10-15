@@ -1,3 +1,5 @@
+from fastapi import FastAPI, HTTPException
+
 class RulesException(Exception):
     def __init__(self, msg: str) -> None:
         super(RulesException, self).__init__(msg)

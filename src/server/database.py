@@ -12,6 +12,8 @@ class DataBase():
     adopters_collection = db['adotantes']
     adoptions_collection = db['adocoes']
     users_collection = db['usuarios']
+    address_collection = db['enderecos']
+
 
 
 db = DataBase()
