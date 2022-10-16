@@ -2,7 +2,10 @@ from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 
 
-from src.services.adocao import get_adoption_by_email_and_pet, post_adoption_request
+from src.services.adocao import (
+    get_adoption_by_email_and_pet, get_adoption_requests_by_email, 
+    get_adoption_requests_by_pet, post_adoption_request
+)
 from src.services.adotante import get_adopter_by_email
 from src.services.endereco import get_address_by_adopter_email
 from src.services.pets import get_pet_by_name
@@ -46,3 +49,17 @@ async def get_adoption_request_obj(pet_data, adopter_address, adopter_data, requ
         "dados_pedido": request,
     }
     return adoption_request
+
+
+async def get_all_adoptions_by_email(adoptions_collection, email, skip, limit):
+    try:
+        return await get_adoption_requests_by_email(adoptions_collection, email, skip, limit)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Erro na listagem de adotantes do sistema")
+
+
+async def get_all_adoptions_by_pet(adoptions_collection, pet_name, skip, limit):
+    try:
+        return await get_adoption_requests_by_pet(adoptions_collection, pet_name, skip, limit)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Erro na listagem de pets para adoção")

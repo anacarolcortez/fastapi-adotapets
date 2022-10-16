@@ -27,3 +27,21 @@ async def get_adoption_by_email_and_pet(adoptions_collection, email, pet_name):
     if adoption_request:
         return json.loads(json_util.dumps(adoption_request))
     return None
+
+
+async def get_adoption_requests_by_email(adoptions_collection, email, skip, limit):
+    adoption_cursor = adoptions_collection.find(
+        { 'adotante.email': email }
+    ).skip(skip).limit(int(limit))
+    
+    adoptions = await adoption_cursor.to_list(length=int(limit))
+    return json.loads(json_util.dumps(adoptions))
+
+
+async def get_adoption_requests_by_pet(adoptions_collection, pet_name, skip, limit):
+    adoption_cursor = adoptions_collection.find(
+        { 'pet.nome': pet_name }
+    ).skip(skip).limit(int(limit))
+    
+    adoptions = await adoption_cursor.to_list(length=int(limit))
+    return json.loads(json_util.dumps(adoptions))
