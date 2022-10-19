@@ -1,4 +1,4 @@
-import uvicorn
+# import uvicorn
 from fastapi import FastAPI
 from src.routes import pets, adotante, endereco, adocao
 
@@ -22,5 +22,5 @@ app.include_router(adocao.router)
 
 
 # Descomente para rodar o código no localhost
-if __name__ == '__main__':
-    uvicorn.run("main:app", port=8000, reload=True, access_log=False)
+# if __name__ == '__main__':
+#     uvicorn.run("main:app", port=8000, reload=True, access_log=False)
