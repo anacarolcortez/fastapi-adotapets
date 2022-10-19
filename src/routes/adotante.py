@@ -7,22 +7,17 @@ from src.controllers.adotantes import (
 )
 
 from fastapi import APIRouter, Depends
-from src.server.database import db
 
 from src.security.basic_oauth import validate_admin, validate_adopter
 from src.schemas.adotante import AdotanteUsuarioSchema, AdotanteUpdateSchema
 
 router = APIRouter(prefix="/adotantes")
-adopters_collection = db.adopters_collection
-users_collection = db.users_collection
 
 
 @router.post("/", tags=["adotantes"])
 async def register_adopter(adopter: AdotanteUsuarioSchema):
     try:
         return await create_adopter(
-            adopters_collection,
-            users_collection,
             adopter
         )
     except Exception as e:
@@ -33,7 +28,6 @@ async def register_adopter(adopter: AdotanteUsuarioSchema):
 async def get_adopter(email:str=Depends(validate_adopter)):
     try:
         return await find_adopter(
-            adopters_collection,
             email
         )
     except Exception as e:
@@ -45,7 +39,6 @@ async def list_adopters(user=Depends(validate_admin)):
     try:
         if user:
             return await get_all_adopters(
-                adopters_collection,
                 skip = 0,
                 limit = 10
             )
@@ -56,7 +49,6 @@ async def list_adopters(user=Depends(validate_admin)):
 async def update_adopter_data(data: AdotanteUpdateSchema, email:str=Depends(validate_adopter)):
     try:
         return await update_adopter_info(
-            adopters_collection,
             email,
             data
         )
@@ -68,8 +60,6 @@ async def update_adopter_data(data: AdotanteUpdateSchema, email:str=Depends(vali
 async def delete_adopter(email:str=Depends(validate_adopter)):
     try:
         return await delete_adopter_info(
-            adopters_collection,
-            users_collection,
             email
         )
     except Exception as e:

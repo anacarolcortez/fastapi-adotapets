@@ -2,23 +2,25 @@ from bson import ObjectId
 from bson import json_util
 import json
 
+from src.server.database import db
+adoptions_collection = db.adoptions_collection
 
-async def post_adoption_request(adoptions_collection, adoption_request):
+async def post_adoption_request(adoption_request):
     adoption_data = await adoptions_collection.insert_one(adoption_request)
     if adoption_data.inserted_id:
-        adopter = await get_adoption_request_by_id(adoptions_collection, adoption_data.inserted_id)
+        adopter = await get_adoption_request_by_id(adoption_data.inserted_id)
         return adopter
     return None
 
 
-async def get_adoption_request_by_id(adoptions_collection, id):
+async def get_adoption_request_by_id(id):
     adoption_request = await adoptions_collection.find_one({'_id': ObjectId(id)})
     if adoption_request:
         return json.loads(json_util.dumps(adoption_request))
     return None
 
     
-async def get_adoption_by_email_and_pet(adoptions_collection, email, pet_name):
+async def get_adoption_by_email_and_pet(email, pet_name):
     adoption_request = await adoptions_collection.find_one(
         {
             'adotante.email': email, 
@@ -29,7 +31,7 @@ async def get_adoption_by_email_and_pet(adoptions_collection, email, pet_name):
     return None
 
 
-async def get_adoption_requests_by_email(adoptions_collection, email, skip, limit):
+async def get_adoption_requests_by_email(email, skip, limit):
     adoption_cursor = adoptions_collection.find(
         { 'adotante.email': email }
     ).skip(skip).limit(int(limit))
@@ -38,7 +40,7 @@ async def get_adoption_requests_by_email(adoptions_collection, email, skip, limi
     return json.loads(json_util.dumps(adoptions))
 
 
-async def get_adoption_requests_by_pet(adoptions_collection, pet_name, skip, limit):
+async def get_adoption_requests_by_pet(pet_name, skip, limit):
     adoption_cursor = adoptions_collection.find(
         { 'pet.nome': pet_name }
     ).skip(skip).limit(int(limit))

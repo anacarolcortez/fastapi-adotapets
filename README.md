@@ -31,6 +31,7 @@ Por meio dos endpoints, é possível:
 * Listar pedidos de adoção por pet (admin)
 * Atualizar status do pedido para deferido/indeferido (admin)
 * Atualizar status do pet para adotado/não-adotado (admin)
+* Listar adoções deferidas (admin)
 
 ## Como acessar
 

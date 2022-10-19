@@ -12,14 +12,12 @@ from src.security.basic_oauth import validate_adopter
 
 
 router = APIRouter(prefix="/enderecos")
-address_collection = db.address_collection
 
 
 @router.post("/{email}", tags=["enderecos"])
 async def register_client_address(address: EnderecoSchema, email:str=Depends(validate_adopter)):
     try:
         return await create_address(
-            address_collection,
             address,
             email
         )
@@ -31,7 +29,6 @@ async def register_client_address(address: EnderecoSchema, email:str=Depends(val
 async def get_client_address(email:str=Depends(validate_adopter)):
     try:
         return await find_address(
-            address_collection,
             email
         )
     except Exception as e:
@@ -42,7 +39,6 @@ async def get_client_address(email:str=Depends(validate_adopter)):
 async def update_client_address(address: EnderecoSchema, email:str=Depends(validate_adopter)):
     try:
         return await update_address(
-            address_collection,
             address,
             email
         )
@@ -54,7 +50,6 @@ async def update_client_address(address: EnderecoSchema, email:str=Depends(valid
 async def delete_client_address(email:str=Depends(validate_adopter)):
     try:
         return await delete_address(
-            address_collection,
             email
         )
     except Exception as e:

@@ -11,50 +11,53 @@ from src.services.adotante import (
     insert_one_adopter,
     update_adopter
 )
-from src.services.usuario import delete_user, get_user_by_email, insert_user_adopter
+from src.services.usuario import (
+    delete_user, 
+    get_user_by_email, 
+    insert_user_adopter
+)
 
-
-async def find_adopter(adopters_collection, email):
-    adopter = await get_adopter_by_email(adopters_collection, email)
+async def find_adopter(email):
+    adopter = await get_adopter_by_email(email)
     if adopter is not None:
         return adopter
     raise HTTPException(status_code=404, detail="Adotante não encontrado no sistema")
 
 
-async def create_adopter(adopters_collection, users_collection, adopter):
-    has_adopter = await get_adopter_by_email(adopters_collection, adopter.email)
-    has_user = await get_user_by_email(users_collection, adopter.email)
+async def create_adopter(adopter):
+    has_adopter = await get_adopter_by_email(adopter.email)
+    has_user = await get_user_by_email(adopter.email)
     if has_adopter is None and has_user is None:
         user_adopter = await get_object_user(adopter)
         person_adopter = await get_object_adopter(adopter)
-        await insert_user_adopter(users_collection, user_adopter)
-        return await insert_one_adopter(adopters_collection, person_adopter)
+        await insert_user_adopter(user_adopter)
+        return await insert_one_adopter(person_adopter)
     raise HTTPException(status_code=400, detail="Adotante já estava cadastrado no sistema")
 
 
-async def get_all_adopters(adopters_collection, skip, limit):
+async def get_all_adopters(skip, limit):
     try:
-        return await get_adopters(adopters_collection, int(skip), int(limit))
+        return await get_adopters(int(skip), int(limit))
     except Exception:
         raise HTTPException(status_code=404, detail="Erro na listagem de adotantes do sistema")
 
 
-async def update_adopter_info(adopters_collection, name, data):
-    adopter = await get_adopter_by_email(adopters_collection, name)
+async def update_adopter_info(name, data):
+    adopter = await get_adopter_by_email(name)
     if adopter is not None:
         data_dict = jsonable_encoder(data)
-        updated_count = await update_adopter(adopters_collection, name, data_dict)
+        updated_count = await update_adopter(name, data_dict)
         if updated_count:
-            return await get_adopter_by_email(adopters_collection, name)
+            return await get_adopter_by_email(name)
     raise HTTPException(status_code=400, detail="Erro ao atualizar cadastro: adotante não encontrado no sistema")
     
     
-async def delete_adopter_info(adopters_collection, users_collection, email):
-    adopter = await get_adopter_by_email(adopters_collection, email)
-    user = await get_user_by_email(users_collection, email)
+async def delete_adopter_info(email):
+    adopter = await get_adopter_by_email(email)
+    user = await get_user_by_email(email)
     if adopter is not None and user is not None:
-        response_adopter = await delete_adopter(adopters_collection, email)
-        response_user = await delete_user(users_collection, email)
+        response_adopter = await delete_adopter(email)
+        response_user = await delete_user(email)
         if response_adopter and response_user:
             return {
                 "status_code": 200,
