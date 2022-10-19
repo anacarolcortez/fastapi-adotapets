@@ -11,7 +11,7 @@ from fastapi import APIRouter, Depends
 from src.security.basic_oauth import validate_admin, validate_adopter
 from src.schemas.adotante import AdotanteUsuarioSchema, AdotanteUpdateSchema
 
-router = APIRouter(prefix="/adotantes")
+router = APIRouter(prefix="/adotantes/dados-pessoais")
 
 
 @router.post("/", tags=["adotantes"])

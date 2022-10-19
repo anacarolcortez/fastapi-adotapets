@@ -7,14 +7,13 @@ from src.controllers.enderecos import (
 
 from fastapi import APIRouter, Depends
 from src.schemas.endereco import EnderecoSchema
-from src.server.database import db
 from src.security.basic_oauth import validate_adopter
 
 
-router = APIRouter(prefix="/enderecos")
+router = APIRouter(prefix="/adotantes/endereco")
 
 
-@router.post("/{email}", tags=["enderecos"])
+@router.post("/{email}", tags=["adotantes"])
 async def register_client_address(address: EnderecoSchema, email:str=Depends(validate_adopter)):
     try:
         return await create_address(
@@ -25,7 +24,7 @@ async def register_client_address(address: EnderecoSchema, email:str=Depends(val
         return e
 
 
-@router.get("/{email}", tags=["enderecos"])
+@router.get("/{email}", tags=["adotantes"])
 async def get_client_address(email:str=Depends(validate_adopter)):
     try:
         return await find_address(
@@ -35,7 +34,7 @@ async def get_client_address(email:str=Depends(validate_adopter)):
         return e
    
     
-@router.put("/{email}", tags=["enderecos"])
+@router.put("/{email}", tags=["adotantes"])
 async def update_client_address(address: EnderecoSchema, email:str=Depends(validate_adopter)):
     try:
         return await update_address(
@@ -46,7 +45,7 @@ async def update_client_address(address: EnderecoSchema, email:str=Depends(valid
         return e
     
     
-@router.delete("/{email}", tags=["enderecos"])
+@router.delete("/{email}", tags=["adotantes"])
 async def delete_client_address(email:str=Depends(validate_adopter)):
     try:
         return await delete_address(
