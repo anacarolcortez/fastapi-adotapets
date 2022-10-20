@@ -8,7 +8,6 @@ from src.controllers.pet import (
 
 from fastapi import APIRouter, Depends
 from src.security.basic_oauth import validate_admin
-from src.server.database import db
 
 from src.schemas.pet import PetSchema, PetUpdateSchema
 
@@ -17,7 +16,7 @@ router = APIRouter(prefix="/pets")
 
 
 @router.post("/cadastro", tags=["pets"])
-async def register_pet(pet: PetSchema, user=Depends(validate_admin)):
+async def admin_register_pet(pet: PetSchema, user=Depends(validate_admin)):
     try:
         if user:
             return await create_pet(
@@ -38,7 +37,7 @@ async def get_pet(name: str):
     
     
 @router.get("/lista", tags=["pets"])
-async def list_pets():
+async def list_pets_to_adoption():
     try:
         return await get_all_pets(
             skip = 0,
@@ -49,7 +48,7 @@ async def list_pets():
     
     
 @router.patch("/cadastro/{name}", tags=["pets"])
-async def update_pet_data(name: str, data: PetUpdateSchema, user=Depends(validate_admin)):
+async def admin_update_pet_data(name: str, data: PetUpdateSchema, user=Depends(validate_admin)):
     try:
         if user:
             return await update_pet_info(
@@ -61,7 +60,7 @@ async def update_pet_data(name: str, data: PetUpdateSchema, user=Depends(validat
                 
 
 @router.delete("/cadastro/{name}", tags=["pets"])
-async def delete_pet(name: str, user=Depends(validate_admin)):
+async def admin_delete_pet(name: str, user=Depends(validate_admin)):
     try:
         if user:
             return await delete_pet_info(

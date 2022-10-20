@@ -9,6 +9,8 @@ class PedidoAdocaoSchema(BaseModel):
     motivacao: str = Field(max_length=500)
     bio_adotante: str = Field(max_length=500)
     aceito_termos: bool = Field(default=True)
+    em_aberto: bool = Field(default=True)
+    deferido: bool = Field(default=False)
 
     class Config:
         arbitrary_types_allowed = False
@@ -23,10 +25,8 @@ class PedidoAdocaoSchema(BaseModel):
         
         
 #upsert
-class DeferimentoAdocaoSchema(BaseModel):
-    deferida: bool = Field(default=True)
-    #avaliador: EmailStr (informado na url)
-    ativa: bool = Field(default=True)
+class StatusAdocaoSchema(BaseModel):
+    deferido: bool = Field(default=True)
     data_deferimento: datetime = datetime.now()
     
     class Config:
@@ -34,13 +34,7 @@ class DeferimentoAdocaoSchema(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "deferida": True
+                "deferido": True
             }
         }
         
-# class AdocaoSchema(BaseModel):
-#     pet: PetSchema
-#     adotante: AdotanteSchema
-#     endereco: EnderecoSchema
-#     dados_pedido: PedidoAdocaoSchema
-#     dados_deferimento: Optional[DeferimentoAdocaoSchema]

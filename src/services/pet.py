@@ -30,8 +30,8 @@ async def insert_one_pet(pet):
     return None
     
 
-async def get_pets(skip, limit):
-    pets_cursor = pets_collection.find().skip(skip).limit(int(limit))
+async def get_pets_to_adoption(skip, limit):
+    pets_cursor = pets_collection.find({'adotado': False}).skip(skip).limit(int(limit))
     pets = await pets_cursor.to_list(length=int(limit))
     return json.loads(json_util.dumps(pets))
 
@@ -51,5 +51,15 @@ async def delete_pet(name):
         {'nome': name}
     )
     if pet.deleted_count:
+        return True
+    return False
+
+
+async def update_adopted_status_pet(name, status):
+    pet = await pets_collection.update_one(
+        {'nome': name},
+        {'$set': {'adotado': status["deferido"]}}
+    )
+    if pet.modified_count:
         return True
     return False

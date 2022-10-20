@@ -36,7 +36,7 @@ async def get_adopter(email:str=Depends(validate_adopter)):
     
     
 @router.get("/lista", tags=["adotantes"])
-async def list_adopters(user=Depends(validate_admin)):
+async def admin_list_adopters(user=Depends(validate_admin)):
     try:
         if user:
             return await get_all_adopters(

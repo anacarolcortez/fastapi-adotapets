@@ -17,7 +17,7 @@ class EnderecoSchema(BaseModel):
         schema_extra = {
             "example": {
                 "logradouro": "Av Westeros",
-                "numero": "12000",
+                "numero": 12000,
                 "complemento": "2 andar",
                 "bairro": "Royal",
                 "cidade": "Westeros",

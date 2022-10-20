@@ -4,8 +4,8 @@ from fastapi import HTTPException
 from src.services.pet import (
     delete_pet,
     get_pet_by_name,
+    get_pets_to_adoption,
     insert_one_pet,
-    get_pets,
     update_pet
 )
 
@@ -26,7 +26,7 @@ async def create_pet(pet):
 
 async def get_all_pets(skip, limit):
     try:
-        return await get_pets(int(skip), int(limit))
+        return await get_pets_to_adoption(int(skip), int(limit))
     except Exception as e:
         raise HTTPException(status_code=400, detail="Erro ao retornar lista de pets cadastrados")
 

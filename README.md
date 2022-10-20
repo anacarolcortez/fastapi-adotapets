@@ -8,7 +8,6 @@ Por meio dos endpoints, é possível:
 * Cadastrar pets (admin)
 * Consultar pets por nome
 * Listar todos os pets disponíveis para adoção
-* Listar todos os pets adotados (admin)
 * Atualizar dados e status dos pets (admin)
 * Excluir cadastro de pets (admin)
 
@@ -27,7 +26,6 @@ Por meio dos endpoints, é possível:
 * Listar pedidos de adoção por pet (admin)
 * Atualizar status do pedido para deferido/indeferido (admin)
 * Atualizar status do pet para adotado/não-adotado (admin)
-* Listar adoções deferidas (admin)
 
 ## Como acessar
 
@@ -45,8 +43,9 @@ Por meio dos endpoints, é possível:
 |admin@adotapets.com.br|SenhaSecreta@123|
 
 #### Usuário adotante
-Para criar um usuário adotante, acesse o endpoint /adotantes, método POST.
-Utilize o e-mail e a senha cadastrados para acessar as APIs permitidas aos adotantes
+Para criar um usuário adotante, acesse o endpoint /usuarios, método POST.
+Utilize o e-mail e a senha cadastrados para criar um perfil de adotante no endpoin /adotantes
+Faça login com e-mail e senha em "Authorize", no Swagger, ou preencha a autenticação com basic auth no Postman/Insomnia, para acessar as APIs permitidas aos adotantes
 
 ## Como executar localmente
 
