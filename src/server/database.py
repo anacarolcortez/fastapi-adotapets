@@ -13,7 +13,7 @@ def config_db():
 
 def get_db() -> AsyncIOMotorDatabase:
     db = config_db()
-    return db["adotapets"]
+    return db.get_default_database()
 
     
 def get_collection(name: str) -> AsyncIOMotorCollection:
