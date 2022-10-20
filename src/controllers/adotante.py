@@ -1,8 +1,6 @@
-from datetime import datetime
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
-from src.schemas.adotante import AdotanteSchema
-from src.schemas.usuario import UsuarioSchema
+
 
 from src.services.adotante import (
     delete_adopter,
@@ -14,7 +12,6 @@ from src.services.adotante import (
 from src.services.usuario import (
     delete_user, 
     get_user_by_email, 
-    insert_user_adopter
 )
 
 async def find_adopter(email):
@@ -24,13 +21,10 @@ async def find_adopter(email):
     raise HTTPException(status_code=404, detail="Adotante não encontrado no sistema")
 
 
-async def create_adopter(adopter):
-    has_adopter = await get_adopter_by_email(adopter.email)
-    has_user = await get_user_by_email(adopter.email)
-    if has_adopter is None and has_user is None:
-        user_adopter = await get_object_user(adopter)
-        person_adopter = await get_object_adopter(adopter)
-        await insert_user_adopter(user_adopter)
+async def create_adopter(adopter, email):
+    has_adopter = await get_adopter_by_email(email)
+    if has_adopter is None:
+        person_adopter = await get_object_adopter(adopter, email)
         return await insert_one_adopter(person_adopter)
     raise HTTPException(status_code=400, detail="Adotante já estava cadastrado no sistema")
 
@@ -67,22 +61,16 @@ async def delete_adopter_info(email):
     raise HTTPException(status_code=400, detail="Erro ao excluir cadastro: usuário ou adotante não encontrado no sistema")
 
 
-async def get_object_user(adopter):
-    user = UsuarioSchema(
-        email=adopter.email,
-        senha=adopter.senha,
-    )
-    return user
-
-async def get_object_adopter(adopter):
-    person = AdotanteSchema(
-        nome=adopter.nome,
-        cpf=adopter.cpf,
-        email=adopter.email,
-        telefone=adopter.telefone,
-        data_nasc=adopter.data_nasc,
-        sexo=adopter.sexo,
-        data_cadastro=datetime.now(),
-        obs=adopter.obs
-    )
+async def get_object_adopter(adopter, email):
+    person = {
+        "email": email,
+        "nome": adopter.nome,
+        "cpf":adopter.cpf,
+        "telefone":adopter.telefone,
+        "data_nasc":adopter.data_nasc,
+        "sexo": adopter.sexo,
+        "endereco": adopter.endereco,
+        "data_cadastro": adopter.data_cadastro,
+        "obs": adopter.obs
+    }
     return person

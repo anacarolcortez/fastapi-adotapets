@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from src.controllers.adocoes import (
+from src.controllers.adocao import (
     create_adoption_request,
     get_all_adoptions_by_email,
     get_all_adoptions_by_pet

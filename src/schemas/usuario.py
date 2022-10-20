@@ -11,9 +11,9 @@ class UsuarioSchema(BaseModel):
     
     @validator("senha")
     def password_validation(cls, v):
-        if len(v) < 5 or len(v) > 15:
+        if len(v) < 5 or len(v) > 20:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Senha deve ter entre 5 e 15 caracteres")
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Senha deve ter entre 5 e 20 caracteres")
         return v
 
     class Config:
@@ -22,8 +22,6 @@ class UsuarioSchema(BaseModel):
         schema_extra = {
             "example": {
                 "email": "khaleesi@dracarys.com",
-                "senha": "motherOfDragons3",
-                "ativo": True,
-                "admin": False
+                "senha": "motherOfDragons3"
             }
         }

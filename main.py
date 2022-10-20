@@ -1,6 +1,6 @@
 # import uvicorn
 from fastapi import FastAPI
-from src.routes import pets, adotante, endereco, adocao
+from src.routes import pet, adotante, adocao, usuario
 
 
 desc = """
@@ -13,9 +13,9 @@ app = FastAPI(title="Adota Pets",
               description=desc)
 
 
-app.include_router(pets.router)
+app.include_router(usuario.router)
+app.include_router(pet.router)
 app.include_router(adotante.router)
-app.include_router(endereco.router)
 app.include_router(adocao.router)
 
 

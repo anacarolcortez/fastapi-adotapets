@@ -1,4 +1,4 @@
-from src.controllers.adotantes import (
+from src.controllers.adotante import (
     create_adopter,
     delete_adopter_info,
     find_adopter,
@@ -9,22 +9,23 @@ from src.controllers.adotantes import (
 from fastapi import APIRouter, Depends
 
 from src.security.basic_oauth import validate_admin, validate_adopter
-from src.schemas.adotante import AdotanteUsuarioSchema, AdotanteUpdateSchema
+from src.schemas.adotante import AdotanteSchema, AdotanteUpdateSchema
 
-router = APIRouter(prefix="/adotantes/dados-pessoais")
+router = APIRouter(prefix="/adotantes")
 
 
-@router.post("/", tags=["adotantes"])
-async def register_adopter(adopter: AdotanteUsuarioSchema):
+@router.post("/cadastro/{email}", tags=["adotantes"])
+async def register_adopter(adopter: AdotanteSchema, email:str=Depends(validate_adopter)):
     try:
         return await create_adopter(
-            adopter
+            adopter,
+            email
         )
     except Exception as e:
         return e
 
 
-@router.get("/{email}", tags=["adotantes"])
+@router.get("/cadastro/{email}", tags=["adotantes"])
 async def get_adopter(email:str=Depends(validate_adopter)):
     try:
         return await find_adopter(
@@ -34,7 +35,7 @@ async def get_adopter(email:str=Depends(validate_adopter)):
         return e
     
     
-@router.get("/", tags=["adotantes"])
+@router.get("/lista", tags=["adotantes"])
 async def list_adopters(user=Depends(validate_admin)):
     try:
         if user:
@@ -45,7 +46,8 @@ async def list_adopters(user=Depends(validate_admin)):
     except Exception as e:
         return e
     
-@router.patch("/{email}", tags=["adotantes"])
+    
+@router.patch("/cadastro/{email}", tags=["adotantes"])
 async def update_adopter_data(data: AdotanteUpdateSchema, email:str=Depends(validate_adopter)):
     try:
         return await update_adopter_info(

@@ -1,7 +1,7 @@
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
 
-from src.services.pets import (
+from src.services.pet import (
     delete_pet,
     get_pet_by_name,
     insert_one_pet,

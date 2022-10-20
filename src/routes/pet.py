@@ -1,4 +1,4 @@
-from src.controllers.pets import (
+from src.controllers.pet import (
     create_pet,
     find_pet,
     get_all_pets,
@@ -16,7 +16,7 @@ from src.schemas.pet import PetSchema, PetUpdateSchema
 router = APIRouter(prefix="/pets")
 
 
-@router.post("/", tags=["pets"])
+@router.post("/cadastro", tags=["pets"])
 async def register_pet(pet: PetSchema, user=Depends(validate_admin)):
     try:
         if user:
@@ -27,7 +27,7 @@ async def register_pet(pet: PetSchema, user=Depends(validate_admin)):
         return e
 
 
-@router.get("/{name}", tags=["pets"])
+@router.get("/cadastro/{name}", tags=["pets"])
 async def get_pet(name: str):
     try:
         return await find_pet(
@@ -37,7 +37,7 @@ async def get_pet(name: str):
         return e
     
     
-@router.get("/", tags=["pets"])
+@router.get("/lista", tags=["pets"])
 async def list_pets():
     try:
         return await get_all_pets(
@@ -48,7 +48,7 @@ async def list_pets():
         return e
     
     
-@router.patch("/{name}", tags=["pets"])
+@router.patch("/cadastro/{name}", tags=["pets"])
 async def update_pet_data(name: str, data: PetUpdateSchema, user=Depends(validate_admin)):
     try:
         if user:
@@ -60,7 +60,7 @@ async def update_pet_data(name: str, data: PetUpdateSchema, user=Depends(validat
         return e
                 
 
-@router.delete("/{name}", tags=["pets"])
+@router.delete("/cadastro/{name}", tags=["pets"])
 async def delete_pet(name: str, user=Depends(validate_admin)):
     try:
         if user:

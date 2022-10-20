@@ -23,13 +23,13 @@ async def get_user_by_id(id):
     return None
     
     
-async def insert_user_adopter(adopter):
-    adopter_data = jsonable_encoder(adopter)
-    adopter = await users_collection.insert_one(adopter_data)
-    if adopter.inserted_id:
-        adopter = await get_user_by_id(adopter.inserted_id)
-        return adopter
-    raise NotInsertedException("Erro ao cadastrar usuário para o adotante")
+async def insert_user_adopter(user):
+    user_data = jsonable_encoder(user)
+    user = await users_collection.insert_one(user_data)
+    if user.inserted_id:
+        user = await get_user_by_id(user.inserted_id)
+        return user
+    raise NotInsertedException("Erro ao cadastrar usuário")
 
 
 async def delete_user(email):
