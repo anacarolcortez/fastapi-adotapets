@@ -2,8 +2,8 @@ from bson import ObjectId
 from bson import json_util
 import json
 
-from src.server.database import db
-adoptions_collection = db.adoptions_collection
+from src.server.database import get_collection
+adoptions_collection = get_collection("adocoes")
 
 async def post_adoption_request(adoption_request):
     adoption_data = await adoptions_collection.insert_one(adoption_request)

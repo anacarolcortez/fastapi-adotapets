@@ -5,8 +5,8 @@ import json
 
 from src.utils.custom_exceptions import NotInsertedException
 
-from src.server.database import db
-users_collection = db.users_collection
+from src.server.database import get_collection
+users_collection = get_collection("usuarios")
 
 
 async def get_user_by_email(email):

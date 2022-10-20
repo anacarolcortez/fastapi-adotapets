@@ -1,19 +1,22 @@
-from motor.motor_asyncio import AsyncIOMotorClient
+import asyncio
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
 from os import environ
 from dotenv import load_dotenv
 load_dotenv()
 
 
-class DataBase():
+def config_db():
     client = AsyncIOMotorClient(environ.get("KEY"))
-    db = client['adotapets']
-
-    pets_collection = db['pets']
-    adopters_collection = db['adotantes']
-    adoptions_collection = db['adocoes']
-    users_collection = db['usuarios']
-    address_collection = db['enderecos']
+    client.get_io_loop = asyncio.get_event_loop
+    return client
 
 
+def get_db() -> AsyncIOMotorDatabase:
+    db = config_db()
+    return db["adotapets"]
 
-db = DataBase()
+    
+def get_collection(name: str) -> AsyncIOMotorCollection:
+    db = get_db()
+    collection = db[name]
+    return collection

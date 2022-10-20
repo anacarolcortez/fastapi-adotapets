@@ -3,8 +3,8 @@ from bson import ObjectId
 from bson import json_util
 import json
 
-from src.server.database import db
-adopters_collection = db.adopters_collection
+from src.server.database import get_collection
+adopters_collection = get_collection("adotantes")
 
 
 async def get_adopter_by_email(email):

@@ -3,8 +3,8 @@ from bson import ObjectId
 from bson import json_util
 import json
 
-from src.server.database import db
-pets_collection = db.pets_collection
+from src.server.database import get_collection
+pets_collection = get_collection("pets")
 
 
 async def get_pet_by_name(name):

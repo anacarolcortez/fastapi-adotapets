@@ -3,8 +3,8 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 
-from server.database import db
-users_collection = db.users_collection
+from src.server.database import get_collection
+users_collection = get_collection("usuarios")
 
 
 security = HTTPBasic()

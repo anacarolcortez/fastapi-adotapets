@@ -5,7 +5,7 @@ from bson import ObjectId
 class EnderecoSchema(BaseModel):
     logradouro: str = Field(max_length=80)
     numero: int
-    complemento: str = Field(max_length=10)
+    complemento: str = Field(max_length=20)
     bairro: str = Field(max_length=20)
     cidade: str = Field(max_length=40)
     estado: str = Field(max_length=2)
