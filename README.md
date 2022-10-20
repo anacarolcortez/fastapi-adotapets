@@ -18,10 +18,6 @@ Por meio dos endpoints, é possível:
 * Consultar adotantes (admin)
 * Atualizar dados dos adotantes (adotante)
 * Excluir cadastro de adotantes (adotante)
-* Cadastrar endereço (adotante)
-* Consultar endereço (adotante)
-* Atualizar endereço (adotante)
-* Excluir endereço (adotante)
 
 ### Gerenciar adoções
 
