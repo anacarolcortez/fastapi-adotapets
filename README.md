@@ -42,9 +42,11 @@ Por meio dos endpoints, é possível:
 |------------|------------|
 |admin@adotapets.com.br|SenhaSecreta@123|
 
+Para fins didáticos, não é possível criar usuários admin, só usuários adotantes.
+
 #### Usuário adotante
 Para criar um usuário adotante, acesse o endpoint /usuarios, método POST.
-Utilize o e-mail e a senha cadastrados para criar um perfil de adotante no endpoin /adotantes
+Utilize o e-mail e a senha cadastrados para criar um perfil de adotante no endpoint /adotantes.
 Faça login com e-mail e senha em "Authorize", no Swagger, ou preencha a autenticação com basic auth no Postman/Insomnia, para acessar as APIs permitidas aos adotantes
 
 ## Como executar localmente
@@ -75,3 +77,7 @@ Faça login com e-mail e senha em "Authorize", no Swagger, ou preencha a autenti
   ```
   $ uvicorn main:app --reload
    ```
+
+
+##### Obs:
+Estou ajustando o retorno dos status HTTP. Por enquanto, os retornos que não envolvem autenticação são do status 200. O status code correto e a mensagem de erro aparecem somente no corpo da mensagem
