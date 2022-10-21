@@ -25,7 +25,7 @@ def test_should_not_create_duplicated_user_email(client: TestClient) -> None:
     assert data["detail"] == "Usuário já estava cadastrado no sistema"
 
 
-def test_should_not_create_user_for_adopter_as_admin(client: TestClient) -> None:
+def test_should_not_create_user_as_admin(client: TestClient) -> None:
     body = create_invalid_admin()
     response = client.post(PREFIXO_URL + "/", json=body)
     data = response.json()
