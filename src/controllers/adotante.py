@@ -13,12 +13,13 @@ from src.services.usuario import (
     delete_user, 
     get_user_by_email, 
 )
+from src.utils.custom_exceptions import NotDeletedException, NotFoundException, NotInsertedException, NotUpdatedException
 
 async def find_adopter(email):
     adopter = await get_adopter_by_email(email)
     if adopter is not None:
         return adopter
-    raise HTTPException(status_code=404, detail="Adotante não encontrado no sistema")
+    raise NotFoundException("Adotante não encontrado no sistema")
 
 
 async def create_adopter(adopter, email):
@@ -26,14 +27,14 @@ async def create_adopter(adopter, email):
     if has_adopter is None:
         person_adopter = await get_object_adopter(adopter, email)
         return await insert_one_adopter(person_adopter)
-    raise HTTPException(status_code=400, detail="Adotante já estava cadastrado no sistema")
+    raise NotInsertedException("Adotante já estava cadastrado no sistema")
 
 
 async def get_all_adopters(skip, limit):
     try:
         return await get_adopters(int(skip), int(limit))
     except Exception:
-        raise HTTPException(status_code=404, detail="Erro na listagem de adotantes do sistema")
+        raise NotFoundException("Erro na listagem de adotantes do sistema")
 
 
 async def update_adopter_info(name, data):
@@ -43,7 +44,7 @@ async def update_adopter_info(name, data):
         updated_count = await update_adopter(name, data_dict)
         if updated_count:
             return await get_adopter_by_email(name)
-    raise HTTPException(status_code=400, detail="Erro ao atualizar cadastro: adotante não encontrado no sistema")
+    raise NotUpdatedException("Erro ao atualizar cadastro: adotante não encontrado no sistema")
     
     
 async def delete_adopter_info(email):
@@ -58,7 +59,7 @@ async def delete_adopter_info(email):
                 "detail": "Adotante e respectivo usuário foram removidos do sistema",
                 "headers": None
                 }
-    raise HTTPException(status_code=400, detail="Erro ao excluir cadastro: usuário ou adotante não encontrado no sistema")
+    raise NotDeletedException("Erro ao excluir cadastro: usuário ou adotante não encontrado no sistema")
 
 
 async def get_object_adopter(adopter, email):

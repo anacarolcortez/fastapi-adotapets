@@ -77,7 +77,3 @@ Faça login com e-mail e senha em "Authorize", no Swagger, ou preencha a autenti
   ```
   $ uvicorn main:app --reload
    ```
-
-
-##### Obs:
-Estou ajustando o retorno dos status HTTP. Por enquanto, os retornos que não envolvem autenticação são do status 200. O status code correto e a mensagem de erro aparecem somente no corpo da mensagem

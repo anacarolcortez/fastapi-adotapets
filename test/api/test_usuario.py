@@ -21,7 +21,7 @@ def test_should_not_create_duplicated_user_email(client: TestClient) -> None:
     body = create_valid_user()
     response = client.post(PREFIXO_URL + "/", json=body)
     data = response.json()
-    assert data["status_code"] == 400
+    assert response.status_code == 400
     assert data["detail"] == "Usuário já estava cadastrado no sistema"
 
 

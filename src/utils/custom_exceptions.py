@@ -19,3 +19,8 @@ class NotInsertedException(RulesException):
 class NotUpdatedException(RulesException):
     def __init__(self, msg: str) -> None:
         super(NotUpdatedException, self).__init__(msg)
+
+
+class NotDeletedException(RulesException):
+    def __init__(self, msg: str) -> None:
+        super(NotDeletedException, self).__init__(msg)

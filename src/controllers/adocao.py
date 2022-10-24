@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 
 
@@ -9,19 +8,20 @@ from src.services.adocao import (
 )
 from src.services.adotante import get_adopter_by_email
 from src.services.pet import get_pet_by_name, update_adopted_status_pet
+from src.utils.custom_exceptions import NotFoundException, NotInsertedException, NotUpdatedException, RulesException
 
 
 async def create_adoption_request(request, email, pet_name):
     new_data = await get_adoption_by_email_and_pet(email, pet_name)
     if new_data is not None:
-        raise HTTPException(status_code=400, detail="Este pedido já estava registrado. Aguarde o contato dos nossos voluntários")
+        raise NotInsertedException("Este pedido já estava registrado. Aguarde o contato dos nossos voluntários")
 
     get_pet_data = await get_pet_by_name(pet_name)
     if not get_pet_data:
-        raise HTTPException(status_code=404, detail="Pet não encontrado no sistema")
+        raise NotFoundException("Pet não encontrado no sistema")
     
     if get_pet_data["adotado"] == True:
-        raise HTTPException(status_code=400, detail="Este pet não está mais para adoção")
+        raise RulesException("Este pet não está mais para adoção")
     
     get_adopter_data = await get_adopter_by_email(email)
     
@@ -30,7 +30,7 @@ async def create_adoption_request(request, email, pet_name):
     created_adoption = await post_adoption_request(adoption_request)
     if created_adoption:
         return created_adoption
-    raise HTTPException(status_code=400, detail="Erro ao cadastrar o pedido")
+    raise RulesException("Erro ao cadastrar o pedido")
 
 
 async def get_adoption_request_obj(pet_data, adopter_data, request):
@@ -50,24 +50,24 @@ async def get_all_adoptions_by_email(email, skip, limit):
     try:
         return await get_adoption_requests_by_email(email, skip, limit)
     except Exception:
-        raise HTTPException(status_code=404, detail="Erro na listagem de adotantes do sistema")
+        raise NotFoundException("Erro na listagem de adotantes do sistema")
 
 
 async def get_all_adoptions_by_pet(pet_name, skip, limit):
     try:
         return await get_adoption_requests_by_pet(pet_name, skip, limit)
     except Exception:
-        raise HTTPException(status_code=404, detail="Erro na listagem de pets para adoção")
+        raise NotFoundException("Erro na listagem de pets para adoção")
     
 
 async def update_request_status(email, pet_name, status):
     status = jsonable_encoder(status)
     opened_request = await get_adoption_opened_request(email, pet_name)
     if opened_request is None:
-        raise HTTPException(status_code=404, detail="Não há pedidos de adoção em aberto para esta consulta")   
+        raise NotUpdatedException("Não há pedidos de adoção em aberto para esta consulta")   
     id = opened_request["_id"]["$oid"]
     await update_adopted_status_pet(pet_name, status)
     updated_status = await update_status_request(id, status)
     if updated_status:
         return await get_adoption_request_by_id(id)
-    raise HTTPException(status_code=400, detail="Erro na atualização do status do pedido de adoção")   
+    raise RulesException("Erro na atualização do status do pedido de adoção")   
