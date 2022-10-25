@@ -8,7 +8,6 @@ from main import app
 
 @pytest.fixture(scope="function")
 def client():
-    app.dependency_overrides[validate_admin] = True
     with TestClient(app) as c:
         yield c
         
