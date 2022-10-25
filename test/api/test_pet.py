@@ -23,7 +23,8 @@ def drop_pets_table() -> bool:
 
 
 @pytest.fixture
-def create_pet(client: TestClient, get_fake_admin) -> dict:
+def create_pet(client: TestClient, drop_pets_table, get_fake_admin) -> dict:
+    assert drop_pets_table == True
     body = create_valid_pet()
     body["username"], body["password"] = get_fake_admin
     response = client.post(PREFIXO_URL + "/cadastro", json=body)
@@ -31,15 +32,13 @@ def create_pet(client: TestClient, get_fake_admin) -> dict:
     return response.json()
 
 
-def test_should_create_pet_with_correct_payload(client: TestClient, drop_pets_table, create_pet) -> None:
-    assert drop_pets_table == True
+def test_should_create_pet_with_correct_payload(create_pet) -> None:
     body = create_valid_pet()
     pet = create_pet
     assert pet["nome"] == body["nome"]
 
 
-def test_should_not_create_duplicated_pet_name(client: TestClient, drop_pets_table, create_pet, get_fake_admin) -> None:
-    assert drop_pets_table == True
+def test_should_not_create_duplicated_pet_name(client: TestClient, create_pet, get_fake_admin) -> None:
     body =  create_valid_pet()
     body["username"], body["password"] = get_fake_admin
     pet = create_pet
@@ -50,8 +49,7 @@ def test_should_not_create_duplicated_pet_name(client: TestClient, drop_pets_tab
     assert data["detail"] == "Pet já estava cadastrado no sistema"
 
 
-def test_should_not_create_adopted_pet(client: TestClient, drop_pets_table, get_fake_admin) -> None:
-    assert drop_pets_table == True
+def test_should_not_create_adopted_pet(client: TestClient, get_fake_admin) -> None:
     body =  create_invalid_adopted_pet()
     body["username"], body["password"] = get_fake_admin
     response = client.post(PREFIXO_URL + "/cadastro", json=body)
@@ -61,8 +59,7 @@ def test_should_not_create_adopted_pet(client: TestClient, drop_pets_table, get_
     assert data["adotado"] == False
 
 
-def test_should_return_error_when_pet_type_is_wrong(client: TestClient, drop_pets_table, get_fake_admin):
-    assert drop_pets_table == True
+def test_should_return_error_when_pet_type_is_wrong(client: TestClient, get_fake_admin):
     body =  create_invalid_pet_type()
     body["username"], body["password"] = get_fake_admin
     response = client.post(PREFIXO_URL + "/cadastro", json=body)
@@ -71,8 +68,7 @@ def test_should_return_error_when_pet_type_is_wrong(client: TestClient, drop_pet
     assert "value is not a valid enumeration member; permitted: 'cachorro', 'gato'" in data
 
 
-def test_should_return_error_when_pet_size_is_wrong(client: TestClient, drop_pets_table, get_fake_admin):
-    assert drop_pets_table == True
+def test_should_return_error_when_pet_size_is_wrong(client: TestClient, get_fake_admin):
     body =  create_invalid_pet_size()
     body["username"], body["password"] = get_fake_admin
     response = client.post(PREFIXO_URL + "/cadastro", json=body)
@@ -81,8 +77,7 @@ def test_should_return_error_when_pet_size_is_wrong(client: TestClient, drop_pet
     assert "value is not a valid enumeration member; permitted: 'pequeno', 'medio', 'grande'" in data
 
 
-def test_should_return_pet_info_by_pet_name(client: TestClient, drop_pets_table, create_pet):
-    assert drop_pets_table == True
+def test_should_return_pet_info_by_pet_name(client: TestClient, create_pet):
     pet = create_pet
     response = client.get(PREFIXO_URL + f"/cadastro/{pet['nome']}")
     assert response.status_code == 200
@@ -90,8 +85,7 @@ def test_should_return_pet_info_by_pet_name(client: TestClient, drop_pets_table,
     assert data["nome"] == pet["nome"]
 
 
-def test_should_return_pets_list(client: TestClient, drop_pets_table, create_pet):
-    assert drop_pets_table == True
+def test_should_return_pets_list(client: TestClient, create_pet):
     pet = create_pet
     response = client.get(PREFIXO_URL + "/lista")
     assert response.status_code == 200
@@ -99,8 +93,7 @@ def test_should_return_pets_list(client: TestClient, drop_pets_table, create_pet
     assert pet["nome"] in data
 
 
-def test_should_update_pet_info(client: TestClient, drop_pets_table, create_pet, get_fake_admin):
-    assert drop_pets_table == True
+def test_should_update_pet_info(client: TestClient, create_pet, get_fake_admin):
     pet = create_pet
     body =  update_pet_data()
     body["username"], body["password"] = get_fake_admin
@@ -112,11 +105,27 @@ def test_should_update_pet_info(client: TestClient, drop_pets_table, create_pet,
     assert data["obs"] == body["obs"]
 
 
-# def test_should_delete_pet(client: TestClient, drop_pets_table, create_pet, get_fake_admin):
-#     assert drop_pets_table == True
-#     pet = create_pet
-#     username, password = get_fake_admin
-#     response = client.delete(PREFIXO_URL + f"/cadastro/{pet['nome']}", auth=(username, password))
-#     assert response.status_code == 200
-#     data = response.text
-#     assert "Pet removido do sistema" in data
+def test_should_not_update_not_found_pet(client: TestClient, get_fake_admin):
+    body =  update_pet_data()
+    body["username"], body["password"] = get_fake_admin
+    response = client.patch(PREFIXO_URL + f"/cadastro/inexistente", json=body)
+    assert response.status_code == 404
+    data = response.json()
+    assert data['detail'] == "Erro ao atualizar cadastro: pet não encontrado no sistema"
+
+
+def test_should_delete_pet(client: TestClient, create_pet, get_fake_admin):
+    # assert create_pet["nome"] is not None
+    # auth = {
+    #     "username": get_fake_admin[0],
+    #     "password": get_fake_admin[1]
+    # }
+    # response = client.delete(PREFIXO_URL + f"/cadastro/{create_pet['nome']}", json=auth)
+    # assert response.status_code == 200
+    # data = response.text
+    # assert "Pet removido do sistema" in data
+    pass
+
+
+def test_should_not_delete_not_found_pet(client: TestClient, create_pet, get_fake_admin):
+    pass
