@@ -13,6 +13,6 @@ app.dependency_overrides[validate_admin] = override_validate_admin
 
 
 @pytest.fixture(scope="function")
-def client():
+def client() -> TestClient:
     with TestClient(app) as c:
         yield c

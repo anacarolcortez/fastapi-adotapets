@@ -23,6 +23,7 @@ async def get_pet_by_id(id):
   
 async def insert_one_pet(pet):
     pet_data = jsonable_encoder(pet)
+    pet_data["adotado"] = False
     pet = await pets_collection.insert_one(pet_data)
     if pet.inserted_id:
         pet = await get_pet_by_id(pet.inserted_id)
