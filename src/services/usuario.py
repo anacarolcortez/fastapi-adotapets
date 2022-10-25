@@ -23,9 +23,8 @@ async def get_user_by_id(id):
     return None
     
     
-async def insert_user_adopter(user):
+async def insert_user(user):
     user_data = jsonable_encoder(user)
-    user_data["admin"] = False
     user_data["ativo"] = True
     user = await users_collection.insert_one(user_data)
     if user.inserted_id:

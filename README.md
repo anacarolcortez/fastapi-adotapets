@@ -42,8 +42,6 @@ Por meio dos endpoints, é possível:
 |------------|------------|
 |admin@adotapets.com.br|SenhaSecreta@123|
 
-Para fins didáticos, não é possível criar usuários admin, só usuários adotantes.
-
 #### Usuário adotante
 Para criar um usuário adotante, acesse o endpoint /usuarios, método POST.
 Utilize o e-mail e a senha cadastrados para criar um perfil de adotante no endpoint /adotantes.

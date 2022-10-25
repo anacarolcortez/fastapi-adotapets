@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from test.utils.user_body import (
-    create_invalid_admin, 
+    create_user_admin, 
     create_invalid_user_deactivated,
     create_invalid_user_email, 
     create_valid_user
@@ -27,12 +27,12 @@ def test_should_not_create_duplicated_user_email(client: TestClient) -> None:
     assert data["detail"] == "Usuário já estava cadastrado no sistema"
 
 
-def test_should_not_create_user_as_admin(client: TestClient) -> None:
-    body = create_invalid_admin()
+def test_should_create_user_as_admin(client: TestClient) -> None:
+    body = create_user_admin()
     response = client.post(PREFIXO_URL + "/", json=body)
     data = response.json()
-    assert response.status_code == 201 #creates as regular user
-    assert data["admin"] == False
+    assert response.status_code == 201
+    assert data["admin"] == True
     
 
 def test_should_not_create_user_deactivated(client: TestClient) -> None:

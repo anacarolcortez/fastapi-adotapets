@@ -1,12 +1,14 @@
-from email.generator import Generator
 from fastapi.testclient import TestClient
+from src.security.basic_oauth import validate_admin
+
 import pytest
 from main import app
 
 
 
 @pytest.fixture(scope="function")
-def client() -> Generator:
+def client():
+    app.dependency_overrides[validate_admin] = True
     with TestClient(app) as c:
         yield c
         

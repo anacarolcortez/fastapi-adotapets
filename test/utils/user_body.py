@@ -4,7 +4,7 @@ def create_valid_user():
         "senha": "teste123"
     }
     
-def create_invalid_admin():
+def create_user_admin():
     return {
         "email": "admin@tester.com",
         "senha": "teste123",
