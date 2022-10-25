@@ -19,3 +19,9 @@ def create_invalid_user_deactivated():
         "ativo": False,
         "admin": False
     }
+
+def create_invalid_user_email():
+    return {
+        "email": "teste@",
+        "senha": "teste123"
+    }
