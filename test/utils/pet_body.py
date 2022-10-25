@@ -1,14 +1,18 @@
+from datetime import datetime
+
+
 def create_valid_pet():
     return {
-        "nome": "teste doguinho",
+        "nome": "miau miau",
         "data_nasc": "2020-09-15",
-        "sexo": "m",
+        "data_cadastro": f"{datetime.now()}",
+        "sexo": "f",
         "raca": "srd",
-        "porte": "medio",
-        "cor": "preto",
-        "tipo": "cachorro",
+        "porte": "pequeno",
+        "cor": "caramelo e branco",
+        "tipo": "gato",
         "pcd": False,
-        "foto": "imgur.com/teste_doguinho.jpg",
-        "obs": "brincalhão e sociável; castrado; vacinado; vermifugado",
+        "foto": "imgur.com/miaumiaucat.jpg",
+        "obs": "brincalhona e sociável",
         "adotado": False
     }

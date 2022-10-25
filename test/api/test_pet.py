@@ -10,17 +10,16 @@ PREFIXO_URL_USUARIO = usuario.router.prefix
 
 
 @pytest.fixture
-def create_admin_user(client: TestClient) -> int:
-    body = create_user_admin()
-    response = client.post(PREFIXO_URL_USUARIO + "/", json=body)
-    return response.status_code
+def get_fake_admin() -> dict:
+    return "teste@teste.com", "123senh@"
+    #validação é ignorada com override de dependência
 
 
-# def test_should_create_pet_with_correct_payload(client: TestClient, create_admin_user) -> None:
-#     assert create_admin_user == 201
-#     body = create_valid_pet()
-#     response = client.post(PREFIXO_URL_PET + "/", json=body)
-#     # override dependência e passar usuário?
-#     data = response.json()
-#     assert response.status_code == 201
-#     assert body["nome"] == data["nome"]
+def test_should_create_pet_with_correct_payload(client: TestClient, get_fake_admin) -> None:
+    body = create_valid_pet()
+    body["username"], body["password"] = get_fake_admin
+    response = client.post(PREFIXO_URL_PET + "/cadastro", json=body)
+    data = response.json()
+    print(data)
+    assert response.status_code == 201
+    assert body["nome"] == data["nome"]
